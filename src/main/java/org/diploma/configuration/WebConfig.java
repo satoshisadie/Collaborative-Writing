@@ -2,6 +2,7 @@ package org.diploma.configuration;
 
 import freemarker.template.TemplateException;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,6 +15,9 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
+@ComponentScan(basePackages = {
+        "org.diploma.controllers"
+})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override

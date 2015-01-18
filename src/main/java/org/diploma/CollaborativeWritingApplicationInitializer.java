@@ -1,6 +1,8 @@
 package org.diploma;
 
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -13,7 +15,12 @@ public class CollaborativeWritingApplicationInitializer implements WebApplicatio
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        final ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", new DispatcherServlet());
+        final AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
+        applicationContext.setConfigLocation("org.diploma.configuration");
+
+        servletContext.addListener(new ContextLoaderListener(applicationContext));
+
+        final ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", new DispatcherServlet(applicationContext));
         registration.setLoadOnStartup(1);
         registration.addMapping(MAPPING_URL);
     }
