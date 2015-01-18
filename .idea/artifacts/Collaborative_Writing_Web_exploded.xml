@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Collaborative Writing:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Collaborative_Writing_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Collaborative Writing/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Collaborative Writing" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-core:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.1.4.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.freemarker:freemarker:2.3.14" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:4.1.4.RELEASE" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
