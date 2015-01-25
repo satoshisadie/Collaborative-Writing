@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="sqljdbc41">
+  <library name="sqljdbc41 (3)">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/sqljdbc41.jar!/" />
     </CLASSES>

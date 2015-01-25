@@ -6,6 +6,7 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/org/diploma/CollaborativeWritingApplication.java</file>
           <file>file://$MODULE_DIR$/src/main/java/org/diploma/configuration/WebConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/org/diploma/configuration/DatabaseConfig.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -20,6 +21,17 @@
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web Gradle : Collaborative Writing-1.0.war">
+      <configuration>
+        <webroots>
+          <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+        </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+          <root url="file://$MODULE_DIR$/src/main/java" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -49,8 +61,22 @@
     <orderEntry type="library" exported="" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-webmvc:4.1.4.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-web:4.1.4.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: org.freemarker:freemarker:2.3.14" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-context-support:4.1.4.RELEASE" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-jdbc:4.1.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-core:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-web:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.freemarker:freemarker:2.3.20" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-tx:4.1.2.RELEASE" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: C__Users_Alexander_Semenets_IdeaProjects_Collaborative_Writing_lib_sqljdbc41">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/sqljdbc41" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="sqljdbc41" level="project" />
   </component>
 </module>

@@ -1,11 +1,15 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="Collaborative Writing:Web exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/Collaborative_Writing_Web_exploded</output-path>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="Collaborative Writing/web/Web" />
+  <artifact type="war" name="Gradle : Collaborative Writing : Collaborative Writing-1.0.war">
+    <output-path>$PROJECT_DIR$/out/artifacts/Collaborative Writing</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
+    <root id="archive" name="Collaborative Writing-1.0.war">
+      <element id="javaee-facet-resources" facet="Collaborative Writing/web/Web Gradle : Collaborative Writing-1.0.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Collaborative Writing" />
+          <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.1.4.RELEASE" />
@@ -18,8 +22,6 @@
           <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.1.4.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.1.4.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-context-support:4.1.4.RELEASE" />
-          <element id="library" level="project" name="Gradle: taglibs:standard:1.1.2" />
-          <element id="library" level="project" name="Gradle: jstl:jstl:1.2" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:4.1.2.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-core:3.2.5.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework.security:spring-security-web:3.2.5.RELEASE" />
@@ -27,6 +29,9 @@
           <element id="library" level="project" name="Gradle: org.springframework:spring-tx:4.1.2.RELEASE" />
           <element id="library" level="project" name="sqljdbc41" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/Collaborative Writing/exploded/Collaborative Writing-1.0.war/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

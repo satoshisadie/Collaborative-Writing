@@ -26,6 +26,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/public/");
     }
 
+//    @Bean
+//    public CommonsMultipartResolver commonsMultipartResolver() {
+//        return new CommonsMultipartResolver();
+//    }
+
     @Bean
     public FreeMarkerViewResolver freeMarkerViewResolver() {
         final FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
