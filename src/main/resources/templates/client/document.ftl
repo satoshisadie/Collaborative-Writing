@@ -33,12 +33,15 @@
     <div class="modal" id="modal-id">
     	<div class="modal-dialog modal-lg">
     		<div class="modal-content">
-    			<div class="modal-header">
-    				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    				<h4 class="modal-title">Modal title</h4>
-    			</div>
-
     			<div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Last saved version</h4>
+                        </div>
+                        <div class="col-md-6" style="border-left: 1px solid darkgray;">
+                            <h4>Modified version</h4>
+                        </div>
+                    </div>
                     <div class="row">
                         <div id="last-version-of-content" class="col-md-6"></div>
                         <div id="modified-version-of-content" class="col-md-6" style="border-left: 1px solid darkgray;"></div>

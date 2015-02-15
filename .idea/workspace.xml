@@ -6,10 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca34aa60-a506-4134-b2be-aba0437a2be0" name="Default" comment="Fix sql query and getting of document json">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/diploma/dao/DocumentDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/org/diploma/dao/DocumentDaoImpl.java" />
+    <list default="true" id="ca34aa60-a506-4134-b2be-aba0437a2be0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/client/document.ftl" afterPath="$PROJECT_DIR$/src/main/resources/templates/client/document.ftl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/public/js/client/document.js" afterPath="$PROJECT_DIR$/src/main/resources/public/js/client/document.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Collaborative Writing.iws" />
@@ -191,11 +189,12 @@
       <file leaf-file-name="document.ftl" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/client/document.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5403226" vertical-offset="424" max-vertical-offset="1292">
-              <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.36520737" vertical-offset="424" max-vertical-offset="1349">
+              <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#textarea#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1597,7 +1596,7 @@
       <workItem from="1422796359652" duration="230000" />
       <workItem from="1423682765559" duration="342000" />
       <workItem from="1423683161966" duration="19830000" />
-      <workItem from="1423993862998" duration="22405000" />
+      <workItem from="1423993862998" duration="22626000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1421583309188</created>
@@ -1635,11 +1634,17 @@
       <option name="project" value="LOCAL" />
       <updated>1424017722221</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implement &quot;Show changes&quot; logic">
+      <created>1424021533172</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1424021533172</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82127000" />
+    <option name="totallyTimeSpent" value="82348000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1720,7 +1725,8 @@
     <MESSAGE value="Implement database settings, add diff library" />
     <MESSAGE value="Add editor scripts and styles" />
     <MESSAGE value="Fix sql query and getting of document json" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix sql query and getting of document json" />
+    <MESSAGE value="Implement &quot;Show changes&quot; logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement &quot;Show changes&quot; logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2151,11 +2157,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/client/document.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5403226" vertical-offset="424" max-vertical-offset="1292">
-          <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.36520737" vertical-offset="424" max-vertical-offset="1349">
+          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#textarea#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
