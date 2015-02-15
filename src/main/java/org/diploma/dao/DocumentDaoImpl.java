@@ -7,6 +7,7 @@ import org.diploma.utils.CommonUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public class DocumentDaoImpl implements DocumentDao {
@@ -23,15 +24,32 @@ public class DocumentDaoImpl implements DocumentDao {
                         "d.id," +
                         "d.authorId," +
                         "d.createdDate," +
-                        "dcv.content" +
+                        "dcv.content " +
                 "FROM document d " +
-                "JOIN documentContentVersion dcv ON dcv.documentId = (SELECT TOP 1 dcv2.id " +
-                                                                     "FROM documentContentVersion dcv2 " +
-                                                                     "WHERE dcv2.documentId = d.id " +
-                                                                     "ORDER BY dcv2.dateCreated DESC) " +
+                "JOIN documentContentVersion dcv ON dcv.id = (SELECT TOP 1 dcv2.id " +
+                                                             "FROM documentContentVersion dcv2 " +
+                                                             "WHERE dcv2.documentId = d.id " +
+                                                             "ORDER BY dcv2.createdDate DESC) " +
                 "WHERE d.id = ?;";
 
         return CommonUtils.selectOne(jdbcTemplate, sql, new DocumentRowMapper(), id);
+    }
+
+    @Override
+    public List<Document> getDocuments() {
+        final String sql =
+                "SELECT " +
+                        "d.id," +
+                        "d.authorId," +
+                        "d.createdDate," +
+                        "dcv.content " +
+                "FROM document d " +
+                "JOIN documentContentVersion dcv ON dcv.id = (SELECT TOP 1 dcv2.id " +
+                                                             "FROM documentContentVersion dcv2 " +
+                                                             "WHERE dcv2.documentId = d.id " +
+                                                             "ORDER BY dcv2.createdDate DESC);";
+
+        return jdbcTemplate.query(sql, new DocumentRowMapper());
     }
 
     @Override

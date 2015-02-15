@@ -5,11 +5,10 @@ $(document).ready(function () {
     var document;
 
     $.ajax({
-        url: './save',
-        type: 'POST',
+        url: './json',
+        type: 'GET',
         data: {
-            documentId: 1,
-            content: editor.codemirror.getValue()
+            id: $('#document-id').val()
         },
         async: false,
         dataType: 'json'
@@ -28,7 +27,7 @@ $(document).ready(function () {
             url: './save',
             type: 'POST',
             data: {
-                documentId: 1,
+                documentId: $('#document-id').val(),
                 content: editor.codemirror.getValue()
             }
         }).done(function (response) {

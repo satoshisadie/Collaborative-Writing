@@ -13,14 +13,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-8">
-                    <#--<textarea style="display: none;" class="form-control">${document.content}</textarea>-->
-                    <textarea style="display: none;" class="form-control"></textarea>
-                </div>
-                <div class="col-md-2">
-                    <input class="save-content btn btn-primary btn-lg" type="button" value="Save"/>
-                </div>
+            <div class="col-md-offset-2 col-md-8">
+                <textarea style="display: none;" class="form-control"></textarea>
+            </div>
+            <div class="col-md-2">
+                <input class="save-content btn btn-primary btn-lg" type="button" value="Save"/>
             </div>
         </div>
     </div>
@@ -29,6 +26,8 @@
         <div class="container clearfix">
         </div>
     </footer>
+
+    <input id="document-id" type="hidden" value="${document.id?c}">
 
     <script type="text/javascript" src="/resources/js/libs/jquery.js"></script>
     <script type="text/javascript" src="/resources/js/libs/bootstrap.js"></script>
