@@ -1,5 +1,7 @@
 package org.diploma.configuration;
 
+import org.diploma.dao.DocumentDao;
+import org.diploma.dao.DocumentDaoImpl;
 import org.diploma.dao.UserDao;
 import org.diploma.dao.UserDaoImpl;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +31,13 @@ public class DatabaseConfig {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean public UserDao userDao(JdbcTemplate jdbcTemplate) {
+    @Bean
+    public UserDao userDao(JdbcTemplate jdbcTemplate) {
         return new UserDaoImpl(jdbcTemplate);
+    }
+
+    @Bean
+    public DocumentDao documentDao(JdbcTemplate  jdbcTemplate) {
+        return new DocumentDaoImpl(jdbcTemplate);
     }
 }

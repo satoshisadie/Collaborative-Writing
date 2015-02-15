@@ -68,15 +68,17 @@
     <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-web:3.2.5.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.freemarker:freemarker:2.3.20" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework:spring-tx:4.1.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.5.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
     <orderEntry type="module-library" exported="">
-      <library name="Gradle: C__Users_Alexander_Semenets_IdeaProjects_Collaborative_Writing_lib_sqljdbc41">
+      <library name="Gradle: C__Users_Alexander_Semenets_IdeaProjects_Collaborative_Writing_libs_sqljdbc41">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/lib/sqljdbc41" />
+          <root url="file://$MODULE_DIR$/libs/sqljdbc41" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="sqljdbc41" level="project" />
   </component>
 </module>
