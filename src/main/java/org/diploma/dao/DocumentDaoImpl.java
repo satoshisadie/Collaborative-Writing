@@ -61,29 +61,26 @@ public class DocumentDaoImpl implements DocumentDao {
                 "WHEN NOT MATCHED BY target THEN " +
                         "INSERT (id, authorId, createdDate) VALUES (id, authorId, createdDate);";
 
-        final long documentId = CommonUtils.generateId();
         jdbcTemplate.update(
                 sql1,
-                documentId,
+                form.getDocumentId(),
                 1,
                 new Date()
         );
 
         final String sql2 =
                 "INSERT INTO documentContentVersion(" +
-                        "id," +
                         "previousVersionId," +
                         "documentId," +
                         "content," +
                         "createdDate," +
                         "difference" +
-                ") VALUES (?, ?, ?, ?, GETDATE(), ?)";
+                ") VALUES (?, ?, ?, GETDATE(), ?)";
 
         jdbcTemplate.update(
                 sql2,
-                2,
                 null,
-                documentId,
+                form.getDocumentId(),
                 form.getContent(),
                 ""
         );
