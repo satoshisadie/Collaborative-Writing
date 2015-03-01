@@ -22,6 +22,20 @@ public class CommonUtils {
         return responseObjectNode;
     }
 
+    public static ObjectNode prepareErrorResponse(String message) {
+        final JsonNodeFactory jsonNodeFactory = JsonNodeFactory.instance;
+        final ObjectNode responseObjectNode = jsonNodeFactory.objectNode();
+
+        responseObjectNode.put("status", "error");
+
+        final ObjectNode dataObjectNode = jsonNodeFactory.objectNode();
+        dataObjectNode.put("message", message);
+
+        responseObjectNode.set("data", dataObjectNode);
+
+        return responseObjectNode;
+    }
+
     public static long generateId() {
         return Math.abs(UUID.randomUUID().getMostSignificantBits());
     }

@@ -21,6 +21,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
     compile 'org.freemarker:freemarker:2.3.20'
+    compile 'org.eclipse.jgit:org.eclipse.jgit:3.6.2.201501210735-r'
 
     compile files ('/libs/sqljdbc41')
 

@@ -3,25 +3,43 @@ package org.diploma.model;
 import java.util.Date;
 
 public class Document {
-    private long id;
-    private long authorId;
+    private int id;
+    private int authorId;
+    private String title;
+    private String description;
     private Date createdDate;
     private String content;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getAuthorId() {
+    public int getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(long authorId) {
+    public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreatedDate() {

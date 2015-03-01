@@ -1,5 +1,6 @@
 package org.diploma.dao;
 
+import org.diploma.controllers.client.model.DocumentCreateForm;
 import org.diploma.controllers.client.model.DocumentSaveForm;
 import org.diploma.model.Document;
 
@@ -10,5 +11,6 @@ public interface DocumentDao {
 
     Optional<Document> getDocumentById(long id);
     List<Document> getDocuments();
+    int createDocument(DocumentCreateForm form);
     void saveDocument(DocumentSaveForm form);
 }

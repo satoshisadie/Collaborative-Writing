@@ -13,16 +13,19 @@
 
     <div class="container">
         <div class="row">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-8">
-                    <#list documents as document>
-                        <div>
-                            <h4>
-                                <a href="/documents/${document.id?c}/edit">${document.id?c}</a>
-                            </h4>
-                        </div>
-                    </#list>
-                </div>
+            <div class="col-md-offset-2 col-md-8">
+                <h3>My Documents</h3>
+                <#list documents as document>
+                    <div>
+                        <h4>
+                            <a href="/documents/${document.id?c}/edit">${document.title}</a>
+                        </h4>
+
+                        <a href="#">Edit</a>
+                        <a href="#">Discuss</a>
+                        <a href="#">Share</a>
+                    </div>
+                </#list>
             </div>
         </div>
     </div>
@@ -34,10 +37,5 @@
 
     <script type="text/javascript" src="/resources/js/libs/jquery.js"></script>
     <script type="text/javascript" src="/resources/js/libs/bootstrap.js"></script>
-
-    <script type="text/javascript" src="/resources/js/libs/lepture-editor/editor.js"></script>
-    <script type="text/javascript" src="/resources/js/libs/lepture-editor/marked.js"></script>
-
-    <script type="text/javascript" src="/resources/js/client/document.js"></script>
 </body>
 </html>
