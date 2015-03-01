@@ -46,22 +46,9 @@ $(document).ready(function () {
 
         var message = diffMatchPatch.diff_main(lastVersionOfContent, modifiedContent);
         diffMatchPatch.diff_cleanupSemantic(message);
+
         var prettyHtmlMessage = customPrettifyDiff(message);
-
-        var pattern_amp = /&/g;
-        var pattern_lt = /</g;
-        var pattern_gt = />/g;
-        var pattern_para = /\n/g;
-
-        var preparedForViewLastVersion = lastVersionOfContent
-            .replace(pattern_amp, '&amp;')
-            .replace(pattern_lt, '&lt;')
-            .replace(pattern_gt, '&gt;')
-            //.replace(pattern_para, '&para;<br>');
-            .replace(pattern_para, '<br>');
-
-        $('#last-version-of-content').html(preparedForViewLastVersion);
-        $('#modified-version-of-content').html(prettyHtmlMessage);
+        $('#modified-content').html(prettyHtmlMessage);
 
         $('#modal-id').modal('show');
     });

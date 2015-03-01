@@ -117,7 +117,7 @@ public class DocumentDaoImpl implements DocumentDao {
 
         jdbcTemplate.update(
                 sql1,
-                form.getDocumentId(),
+                form.getId(),
                 1,
                 new Date()
         );
@@ -134,7 +134,7 @@ public class DocumentDaoImpl implements DocumentDao {
         jdbcTemplate.update(
                 sql2,
                 null,
-                form.getDocumentId(),
+                form.getId(),
                 form.getContent(),
                 ""
         );

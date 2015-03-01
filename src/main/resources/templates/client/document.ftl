@@ -35,16 +35,9 @@
     		<div class="modal-content">
     			<div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <h4>Last saved version</h4>
+                        <div class="col-md-offset-1 col-md-10">
+                            <div id="modified-content"></div>
                         </div>
-                        <div class="col-md-6" style="border-left: 1px solid darkgray;">
-                            <h4>Modified version</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div id="last-version-of-content" class="col-md-6"></div>
-                        <div id="modified-version-of-content" class="col-md-6" style="border-left: 1px solid darkgray;"></div>
                     </div>
                 </div>
 

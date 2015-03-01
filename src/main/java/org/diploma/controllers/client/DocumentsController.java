@@ -8,17 +8,10 @@ import org.diploma.controllers.client.model.DocumentCreateForm;
 import org.diploma.controllers.client.model.DocumentSaveForm;
 import org.diploma.dao.DocumentDao;
 import org.diploma.model.Document;
+import org.diploma.model.User;
 import org.diploma.utils.CommonUtils;
-import org.eclipse.jgit.api.AddCommand;
-import org.eclipse.jgit.api.CommitCommand;
-import org.eclipse.jgit.api.CreateBranchCommand;
-import org.eclipse.jgit.api.Git;
+import org.diploma.utils.GitUtils;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,20 +20,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("FieldCanBeLocal")
 @Controller
 @RequestMapping("/documents")
 public class DocumentsController {
     @Autowired private DocumentDao documentDao;
     final private ObjectMapper objectMapper = new ObjectMapper();
+
+    private String APPLICATION_PATH = "c:\\CollaborativeWriting";
+
+    private String USER_TEST_LOGIN = "2222";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView viewDocuments() {
@@ -59,13 +55,35 @@ public class DocumentsController {
         return modelAndView;
     }
 
+//    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+//    public ModelAndView editDocument(@PathVariable int id) throws Exception {
+//        final Optional<Document> documentOptional = documentDao.getDocumentById(id);
+//        if (documentOptional.isPresent()) {
+//            final ModelAndView modelAndView = new ModelAndView("/client/document");
+//
+//            modelAndView.addObject("document", documentOptional.get());
+//
+//            return modelAndView;
+//        }
+//
+//        throw new Exception("Resource not found");
+//    }
+
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public ModelAndView editDocument(@PathVariable int id) throws Exception {
         final Optional<Document> documentOptional = documentDao.getDocumentById(id);
+
         if (documentOptional.isPresent()) {
+            final Document document = documentOptional.get();
+            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, document.getTitle());
+
+            final String content = GitUtils.getLastContent(repositoryPath);
+            document.setContent(content);
+            System.out.println(content);
+
             final ModelAndView modelAndView = new ModelAndView("/client/document");
 
-            modelAndView.addObject("document", documentOptional.get());
+            modelAndView.addObject("document", document);
 
             return modelAndView;
         }
@@ -78,16 +96,21 @@ public class DocumentsController {
     public String saveDocument(DocumentSaveForm form) {
 //        documentDao.saveDocument(form);
 
-        final Path path = Paths.get("c:/CollaborativeWriting/" + form.getDocumentId());
-
-        final ArrayList<String> strings = new ArrayList<>();
-        strings.add(form.getContent());
-
         try {
-            Files.write(path, strings);
-//            gitCommit();
-            getAllCommits();
-        } catch (IOException e) {
+//            final String repositoryPath = repositoryPath("login", form.getTitle());
+            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, "Test document 1");
+            final File file = new File(repositoryPath + File.separator + "/content.md");
+
+            try (BufferedWriter bufferedWriter = Files.newBufferedWriter(file.toPath())) {
+                bufferedWriter.write(form.getContent());
+            }
+
+            final User user = new User();
+            user.setLogin("Alexander Semenets");
+            user.setEmail("satoshisadie@gmai.com");
+
+            GitUtils.commitDocumentChanges(repositoryPath, "Message", user);
+        } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
 
@@ -122,65 +145,22 @@ public class DocumentsController {
     public String submitNewDocument(DocumentCreateForm form) {
         final int documentId = documentDao.createDocument(form);
 
+        try {
+            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, form.getTitle());
+
+            final User user = new User();
+            user.setLogin("Alexander Semenets");
+            user.setEmail("satoshisadie@gmai.com");
+
+            GitUtils.createInitialStructure(repositoryPath, user);
+        } catch (IOException | GitAPIException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:./" + documentId + "/edit";
     }
 
-    public void gitCommit() throws IOException, GitAPIException {
-//        final ProcessBuilder processBuilder = new ProcessBuilder(
-//                "cmd.exe",
-//                "/c",
-//                "cd \"c:\\CollaborativeWriting\" && dir && git add * && git commit -m \"Message\""
-////                "cd \"c:\\CollaborativeWriting\" ; git add *; git commit -m \"Message\""
-////                "cd \"c:\\CollaborativeWriting\" ; git add *"
-////                "git add * && git commit -m \"Message\""
-//        );
-//        processBuilder.redirectErrorStream(true);
-
-//        final Process process = processBuilder.start();
-//
-//        final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//
-//        String line;
-//        while ((line = bufferedReader.readLine()) != null) {
-//            System.out.println(line);
-//        }
-
-        final Git git = Git.open(new File("c:\\CollaborativeWriting"));
-
-        final CreateBranchCommand createBranchCommand = git.branchCreate();
-//        createBranchCommand.
-
-        final AddCommand addCommand = git.add();
-        addCommand.addFilepattern(".").call();
-
-        final CommitCommand commitCommand = git.commit();
-        commitCommand.setMessage("Commit with lib");
-
-        final RevCommit revCommit = commitCommand.call();
-        final String name = revCommit.getName();
-
-        System.out.println(name);
-    }
-
-    private void getAllCommits() throws IOException {
-        final Git git = Git.open(new File("c:\\CollaborativeWriting"));
-
-//        final DiffCommand diff = git.diff();
-//        diff.
-
-        final Repository repository = git.getRepository();
-
-        final RevWalk revWalk = new RevWalk(repository);
-        revWalk.setTreeFilter(TreeFilter.ANY_DIFF);
-        revWalk.markStart(revWalk.parseCommit(repository.resolve(Constants.HEAD)));
-
-        for (RevCommit commit : revWalk) {
-            final String fullMessage = commit.getFullMessage();
-            System.out.println("Message:");
-            System.out.println(fullMessage);
-
-            System.out.println("Commit:");
-            System.out.println(commit.getName());
-        }
+    private String repositoryPath(String userLogin, String documentTitle) {
+        return APPLICATION_PATH + File.separator + userLogin + File.separator + documentTitle;
     }
 }

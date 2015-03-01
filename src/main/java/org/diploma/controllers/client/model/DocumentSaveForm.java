@@ -1,15 +1,24 @@
 package org.diploma.controllers.client.model;
 
 public class DocumentSaveForm {
-    private long documentId;
+    private int id;
+    private String title;
     private String content;
 
-    public long getDocumentId() {
-        return documentId;
+    public int getId() {
+        return id;
     }
 
-    public void setDocumentId(long documentId) {
-        this.documentId = documentId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
