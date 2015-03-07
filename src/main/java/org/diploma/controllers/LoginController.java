@@ -14,14 +14,14 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/check-credentials", method = RequestMethod.POST)
-    @ResponseBody
-    public String checkCredentials(@RequestParam String email,
-                                   @RequestParam String password)
-    {
-//        CommonUtils.
-
-
-        return null;
-    }
+//    @RequestMapping(value = "/check-credentials", method = RequestMethod.POST)
+//    @ResponseBody
+//    public String checkCredentials(@RequestParam String email,
+//                                   @RequestParam String password)
+//    {
+////        CommonUtils.
+//
+//
+//        return null;
+//    }
 }

@@ -17,6 +17,8 @@ dependencies {
 
     compile 'org.springframework.security:spring-security-core:3.2.5.RELEASE'
     compile 'org.springframework.security:spring-security-web:3.2.5.RELEASE'
+    compile 'org.springframework.security:spring-security-config:3.2.6.RELEASE'
+    compile 'org.springframework.security:spring-security-taglibs:3.2.6.RELEASE'
 
     compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'

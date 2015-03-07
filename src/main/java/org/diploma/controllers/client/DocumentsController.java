@@ -24,6 +24,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,8 +94,10 @@ public class DocumentsController {
 
     @RequestMapping(value = "/{id}/save", method = RequestMethod.POST)
     @ResponseBody
-    public String saveDocument(DocumentSaveForm form) {
+    public String saveDocument(DocumentSaveForm form, Principal principal) {
 //        documentDao.saveDocument(form);
+
+        System.out.println(principal.getName());
 
         try {
 //            final String repositoryPath = repositoryPath("login", form.getTitle());

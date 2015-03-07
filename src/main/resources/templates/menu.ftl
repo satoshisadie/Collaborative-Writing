@@ -1,3 +1,5 @@
+<#assign security = JspTaglibs["http://www.springframework.org/security/tags"]/>
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="row">
@@ -15,24 +17,40 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="#">About</a></li>
-                        <li><a href="#">Link</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/documents/new">New document</a></li>
-                        <li><a href="/documents/">My Documents</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
+                        <@security.authorize ifNotGranted="ROLE_USER">
+                            <li><a href="/login">Log In</a></li>
+                            <li><a href="/">Sign Up</a></li>
+                        </@security.authorize>
+
+                        <@security.authorize ifAnyGranted="ROLE_USER">
+                            <li><a href="/logout">Log Out</a></li>
+                            <li><a href="/documents/new">New document</a></li>
+                            <li><a href="/documents/">My Documents</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <@security.authentication property="principal.username"/>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                </ul>
+                            </li>
+                        </@security.authorize>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </nav>
+
+
+<#--<@security.authorize ifAnyGranted="ROLE_ADMIN">-->
+<#--Your is Administrator-->
+<#--</@security.authorize>-->
+<#--<@security.authorize ifNotGranted="ROLE_ADMIN">-->
+<#--Your is Nothing-->
+<#--</@security.authorize><br>-->
