@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="row">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-offset-1 col-md-10">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -31,7 +31,9 @@
                             <li><a href="/documents/">My Documents</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <@security.authentication property="principal.username"/>
+                                    <span style="font-size: 20px;">
+                                        <@security.authentication property="principal.username"/>
+                                    </span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">

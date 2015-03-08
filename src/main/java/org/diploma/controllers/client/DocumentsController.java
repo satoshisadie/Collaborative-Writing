@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.diploma.controllers.client.model.DocumentCreateForm;
 import org.diploma.controllers.client.model.DocumentSaveForm;
 import org.diploma.dao.DocumentDao;
+import org.diploma.dao.UserDao;
 import org.diploma.model.Document;
 import org.diploma.model.User;
 import org.diploma.utils.CommonUtils;
@@ -20,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -33,11 +32,10 @@ import java.util.Optional;
 @RequestMapping("/documents")
 public class DocumentsController {
     @Autowired private DocumentDao documentDao;
+    @Autowired private UserDao userDao;
     final private ObjectMapper objectMapper = new ObjectMapper();
 
     private String APPLICATION_PATH = "c:\\CollaborativeWriting";
-
-    private String USER_TEST_LOGIN = "2222";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView viewDocuments() {
@@ -71,25 +69,25 @@ public class DocumentsController {
 //    }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public ModelAndView editDocument(@PathVariable int id) throws Exception {
+    public ModelAndView editDocument(@PathVariable int id, Principal principal) throws Exception {
         final Optional<Document> documentOptional = documentDao.getDocumentById(id);
 
-        if (documentOptional.isPresent()) {
-            final Document document = documentOptional.get();
-            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, document.getTitle());
+        if (!documentOptional.isPresent()) throw new Exception("Resource not found");
 
-            final String content = GitUtils.getLastContent(repositoryPath);
-            document.setContent(content);
-            System.out.println(content);
+        final Document document = documentOptional.get();
+        final User documentAuthor = userDao.getUserById(document.getAuthorId()).get();
 
-            final ModelAndView modelAndView = new ModelAndView("/client/document");
+        final String repositoryPath = repositoryPath(documentAuthor.getLogin(), document.getTitle());
 
-            modelAndView.addObject("document", document);
+        final String content = GitUtils.getLastContent(repositoryPath);
+        document.setContent(content);
+//        System.out.println(content);
 
-            return modelAndView;
-        }
+        final ModelAndView modelAndView = new ModelAndView("/client/document");
 
-        throw new Exception("Resource not found");
+        modelAndView.addObject("document", document);
+
+        return modelAndView;
     }
 
     @RequestMapping(value = "/{id}/save", method = RequestMethod.POST)
@@ -97,22 +95,19 @@ public class DocumentsController {
     public String saveDocument(DocumentSaveForm form, Principal principal) {
 //        documentDao.saveDocument(form);
 
-        System.out.println(principal.getName());
+        final Optional<Document> documentOptional = documentDao.getDocumentById(form.getId());
+        if (!documentOptional.isPresent()) {
+            return CommonUtils.prepareErrorResponse("No such document").toString();
+        }
+
+        final Document document = documentOptional.get();
+        final User documentAuthor = userDao.getUserById(document.getAuthorId()).get();
+        final User committer = userDao.getUserByLogin(principal.getName()).get();
 
         try {
-//            final String repositoryPath = repositoryPath("login", form.getTitle());
-            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, "Test document 1");
-            final File file = new File(repositoryPath + File.separator + "/content.md");
+            final String repositoryPath = repositoryPath(documentAuthor.getLogin(), document.getTitle());
 
-            try (BufferedWriter bufferedWriter = Files.newBufferedWriter(file.toPath())) {
-                bufferedWriter.write(form.getContent());
-            }
-
-            final User user = new User();
-            user.setLogin("Alexander Semenets");
-            user.setEmail("satoshisadie@gmai.com");
-
-            GitUtils.commitDocumentChanges(repositoryPath, "Message", user);
+            GitUtils.commitDocumentChanges(form.getContent(), repositoryPath, "Message", committer);
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
@@ -145,17 +140,14 @@ public class DocumentsController {
     }
 
     @RequestMapping(value = "/submit-new", method = RequestMethod.POST)
-    public String submitNewDocument(DocumentCreateForm form) {
+    public String submitNewDocument(DocumentCreateForm form, Principal principal) {
         final int documentId = documentDao.createDocument(form);
+        final User documentAuthor = userDao.getUserById(documentId).get();
 
         try {
-            final String repositoryPath = repositoryPath(USER_TEST_LOGIN, form.getTitle());
+            final String repositoryPath = repositoryPath(documentAuthor.getLogin(), form.getTitle());
 
-            final User user = new User();
-            user.setLogin("Alexander Semenets");
-            user.setEmail("satoshisadie@gmai.com");
-
-            GitUtils.createInitialStructure(repositoryPath, user);
+            GitUtils.createInitialStructure(repositoryPath, documentAuthor);
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }

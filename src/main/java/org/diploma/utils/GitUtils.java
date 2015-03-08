@@ -6,10 +6,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -28,20 +25,34 @@ public class GitUtils {
             "Welcome to your new document!\n\n" +
             "Brush up on Markdown: http://daringfireball.net/projects/markdown/basics";
 
-    public static void commitDocumentChanges(String path,
+    public static void commitDocumentChanges(String content,
+                                             String path,
                                              String commitMessage,
-                                             User author) throws IOException, GitAPIException
+                                             User user) throws IOException, GitAPIException
     {
         final Git git = Git.open(new File(path));
 
+        if (!isBranchExists(git, user.getLogin())) {
+            git.branchCreate()
+                    .setName(user.getLogin())
+                    .call();
+        }
+
         git.checkout()
-                .setName(Constants.MASTER)
+//                .setName(Constants.MASTER)
+                .setName(user.getLogin())
                 .call();
+
+        final File file = new File(path + File.separator + "/content.md");
+
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(file.toPath())) {
+            bufferedWriter.write(content);
+        }
 
         if (!isAnyDiffs(git)) return;
 
         final RevCommit revCommit = git.commit()
-                .setAuthor(author.getLogin(), author.getEmail())
+                .setAuthor(user.getLogin(), user.getEmail())
                 .setMessage(commitMessage)
                 .setAll(true)
                 .call();
@@ -51,6 +62,13 @@ public class GitUtils {
 //                .call();
 
         git.close();
+    }
+
+    public static boolean isBranchExists(Git git, String branchName) throws GitAPIException {
+        final List<Ref> refList = git.branchList().call();
+
+        return refList.stream()
+                .anyMatch(ref -> ref.getName().endsWith(branchName));
     }
 
     public static boolean isAnyDiffs(Git git) throws IOException, GitAPIException {
