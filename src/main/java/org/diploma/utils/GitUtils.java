@@ -104,9 +104,15 @@ public class GitUtils {
     public static String getLastContent(String path, String branch) throws IOException, GitAPIException {
         final Git git = Git.open(new File(path));
 
-        git.checkout()
-                .setName(branch)
-                .call();
+        if (!isBranchExists(git, branch)) {
+            git.checkout()
+                    .setName(Constants.MASTER)
+                    .call();
+        } else {
+            git.checkout()
+                    .setName(branch)
+                    .call();
+        }
 
         final Repository repository = git.getRepository();
 
