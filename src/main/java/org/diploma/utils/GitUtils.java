@@ -1,5 +1,6 @@
 package org.diploma.utils;
 
+import org.diploma.controllers.client.model.DocumentSaveForm;
 import org.diploma.model.User;
 import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
@@ -25,35 +26,34 @@ public class GitUtils {
             "Welcome to your new document!\n\n" +
             "Brush up on Markdown: http://daringfireball.net/projects/markdown/basics";
 
-    public static void commitDocumentChanges(String content,
+    public static void commitDocumentChanges(DocumentSaveForm form,
                                              String path,
-                                             String commitMessage,
+                                             String branch,
                                              User user) throws IOException, GitAPIException
     {
         final Git git = Git.open(new File(path));
 
-        if (!isBranchExists(git, user.getLogin())) {
+        if (!isBranchExists(git, branch)) {
             git.branchCreate()
-                    .setName(user.getLogin())
+                    .setName(branch)
                     .call();
         }
 
         git.checkout()
-//                .setName(Constants.MASTER)
-                .setName(user.getLogin())
+                .setName(branch)
                 .call();
 
         final File file = new File(path + File.separator + "/content.md");
 
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(file.toPath())) {
-            bufferedWriter.write(content);
+            bufferedWriter.write(form.getContent());
         }
 
         if (!isAnyDiffs(git)) return;
 
         final RevCommit revCommit = git.commit()
                 .setAuthor(user.getLogin(), user.getEmail())
-                .setMessage(commitMessage)
+                .setMessage(form.getCommitMessage())
                 .setAll(true)
                 .call();
 
@@ -101,8 +101,13 @@ public class GitUtils {
         git.close();
     }
 
-    public static String getLastContent(String path) throws IOException {
+    public static String getLastContent(String path, String branch) throws IOException, GitAPIException {
         final Git git = Git.open(new File(path));
+
+        git.checkout()
+                .setName(branch)
+                .call();
+
         final Repository repository = git.getRepository();
 
         final ObjectId lastCommitId = repository.resolve(Constants.HEAD);

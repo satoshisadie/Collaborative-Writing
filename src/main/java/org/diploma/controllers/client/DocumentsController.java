@@ -13,6 +13,7 @@ import org.diploma.model.User;
 import org.diploma.utils.CommonUtils;
 import org.diploma.utils.GitUtils;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,10 +77,12 @@ public class DocumentsController {
 
         final Document document = documentOptional.get();
         final User documentAuthor = userDao.getUserById(document.getAuthorId()).get();
+        final User committer = userDao.getUserByLogin(principal.getName()).get();
+        final String branchName = getBranchName(documentAuthor, committer);
 
         final String repositoryPath = repositoryPath(documentAuthor.getLogin(), document.getTitle());
+        final String content = GitUtils.getLastContent(repositoryPath, branchName);
 
-        final String content = GitUtils.getLastContent(repositoryPath);
         document.setContent(content);
 //        System.out.println(content);
 
@@ -106,8 +109,10 @@ public class DocumentsController {
 
         try {
             final String repositoryPath = repositoryPath(documentAuthor.getLogin(), document.getTitle());
+            final String branchName = getBranchName(documentAuthor, committer);
+            form.setCommitMessage("TODO message");
 
-            GitUtils.commitDocumentChanges(form.getContent(), repositoryPath, "Message", committer);
+            GitUtils.commitDocumentChanges(form, repositoryPath, branchName, committer);
         } catch (IOException | GitAPIException e) {
             e.printStackTrace();
         }
@@ -119,19 +124,19 @@ public class DocumentsController {
     @ResponseBody
     public String getDocumentJson(@PathVariable int id) throws JsonProcessingException {
         final Optional<Document> documentOptional = documentDao.getDocumentById(id);
-        if (documentOptional.isPresent()) {
-            final JsonNode documentJsonNode = objectMapper.valueToTree(id);
-
-            final ObjectNode responseObjectNode = CommonUtils.prepareSuccessResponse();
-
-            responseObjectNode
-                    .with("data")
-                    .set("document", documentJsonNode);
-
-            return responseObjectNode.toString();
+        if (!documentOptional.isPresent()) {
+            return CommonUtils.prepareErrorResponse("Resource not found").toString();
         }
 
-        return CommonUtils.prepareErrorResponse("Resource not found").toString();
+        final JsonNode documentJsonNode = objectMapper.valueToTree(id);
+
+        final ObjectNode responseObjectNode = CommonUtils.prepareSuccessResponse();
+
+        responseObjectNode
+                .with("data")
+                .set("document", documentJsonNode);
+
+        return responseObjectNode.toString();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -142,7 +147,7 @@ public class DocumentsController {
     @RequestMapping(value = "/submit-new", method = RequestMethod.POST)
     public String submitNewDocument(DocumentCreateForm form, Principal principal) {
         final int documentId = documentDao.createDocument(form);
-        final User documentAuthor = userDao.getUserById(documentId).get();
+        final User documentAuthor = userDao.getUserByLogin(principal.getName()).get();
 
         try {
             final String repositoryPath = repositoryPath(documentAuthor.getLogin(), form.getTitle());
@@ -153,6 +158,14 @@ public class DocumentsController {
         }
 
         return "redirect:./" + documentId + "/edit";
+    }
+
+    private String getBranchName(User documentAuthor, User committer) {
+        if (documentAuthor.getLogin().equals(committer.getLogin())) {
+            return Constants.MASTER;
+        }
+
+        return committer.getLogin();
     }
 
     private String repositoryPath(String userLogin, String documentTitle) {

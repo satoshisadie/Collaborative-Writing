@@ -26,7 +26,6 @@
                         </@security.authorize>
 
                         <@security.authorize ifAnyGranted="ROLE_USER">
-                            <li><a href="/logout">Log Out</a></li>
                             <li><a href="/documents/new">New document</a></li>
                             <li><a href="/documents/">My Documents</a></li>
                             <li class="dropdown">
@@ -37,8 +36,8 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="/logout">Log Out</a></li>
+                                    <#--<li><a href="#">Another action</a></li>-->
                                 </ul>
                             </li>
                         </@security.authorize>

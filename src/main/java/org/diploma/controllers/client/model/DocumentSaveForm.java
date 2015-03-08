@@ -4,6 +4,7 @@ public class DocumentSaveForm {
     private int id;
     private String title;
     private String content;
+    private String commitMessage;
 
     public int getId() {
         return id;
@@ -27,5 +28,13 @@ public class DocumentSaveForm {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCommitMessage() {
+        return commitMessage;
+    }
+
+    public void setCommitMessage(String commitMessage) {
+        this.commitMessage = commitMessage;
     }
 }
